@@ -3,7 +3,7 @@ import {useContext} from "react";
 import {FileContext} from "../../context/FileContext.tsx";
 
 interface IMediaRowProps extends IFileData {
-    openModal: (media: { name: string, src: string, type?: string }) => void;
+    openModal: (media: IFileData) => void;
     selectOption: number;
 }
 
@@ -13,7 +13,7 @@ export function MediaRow({id, name, src, type, openModal, selectOption}: IMediaR
 
     const handleOpenModal = (media: IFileData) => {
         chooseFile(media);
-        openModal({name: media.name, src: media.src, type: media.type});
+        openModal(media);
     }
 
     return (

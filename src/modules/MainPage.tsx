@@ -1,7 +1,8 @@
-import {MediaRow} from "./components/MediaRow.tsx";
 import {useContext, useState} from "react";
 import {FileContext} from "../context/FileContext.tsx";
 import {MediaModal} from "./components/MediaModal.tsx";
+import {MediaTable} from "./components/MediaTable.tsx";
+import {IFileData} from "../interfaces";
 
 export function MainPage() {
 
@@ -19,12 +20,14 @@ export function MainPage() {
         setIsModalOpen(false);
     };
 
+    const mediaList: IFileData[] = selectOption === 0 ? videoList : imageList;
+
     return (
         <div className="flex h-full flex-col">
             <div className="w-100 flex justify-center flex-col">
                 <div className="flex flex-col">
                     <div className="mt-4">
-                        <p className="text-white text-2xl font-bold text-center">File Downloader v2.0.0</p>
+                        <p className="text-white text-2xl font-bold text-center">File Downloader</p>
                     </div>
                     <div className="mt-4 text-center">
                         <p className="text-white text-md">
@@ -59,36 +62,9 @@ export function MainPage() {
                                 Images
                             </div>
                         </button>
-
                     </div>
-
                 </div>
-                <div className="mt-4 mx-8 mb-8 flex justify-center">
-                    <table className="w-1/2 table-auto border-collapse">
-                        <thead>
-                        <tr className={`${selectOption === 0 ? 'bg-pink-800' : 'bg-blue-800'} text-neutral-300`}>
-                            <th className="w-1/12 px-4 py-2 text-left">
-                                #
-                            </th>
-                            <th className="w-auto px-4 py-2 text-left">
-                                Name
-                            </th>
-                            <th className="w-1/3 px-4 py-2 text-left">
-                                Options
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {selectOption === 0 && videoList.map((video) => (
-                            <MediaRow selectOption={0} key={video.id} {...video} openModal={openModal}/>
-                        ))}
-
-                        {selectOption === 1 && imageList.map((image) => (
-                            <MediaRow selectOption={1} key={image.id} {...image} openModal={openModal}/>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
+                <MediaTable mediaList={mediaList} selectOption={selectOption} openModal={openModal} />
             </div>
             <MediaModal isOpen={isModalOpen} media={modalData} onClose={closeModal}/>
         </div>
